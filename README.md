@@ -25,10 +25,10 @@ How to start?
 
 Run the server on **development** mode.
 
- 1) Lint **JS**
- 2) Concatenate **Client JS**
- 3) Compile **Sass*8
- 4) Run **nodemon**
+ 1. Lint **JS**
+ 2. Concatenate **Client JS**
+ 3. Compile **Sass**
+ 4. Run **nodemon**
 
 ### lint
 
