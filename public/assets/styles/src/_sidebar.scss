@@ -1,0 +1,38 @@
+.sidebar {
+  min-width: 80px;
+  width: 80px;
+  height: calc(100% - 50px);
+  background-color: $medium-dark-color;
+  display: inline-block;
+  transition: width 0.3s;
+  overflow: hidden;
+  .menu {
+    list-style: none;
+    padding: 0;
+    overflow: hidden;
+    li {
+      width: 80px;
+      cursor: pointer;
+      font-size: 1em;
+      text-align: center;
+      color: $medium-light-color;
+      padding: 21px 0;
+      transition: background-color 0.2s;
+      &:hover {
+        color: $white;
+        background-color: $medium-color;
+      }
+      i {
+        font-size: 1.8em;
+        padding: 0;
+        color: $medium-light-color;
+        &:hover {
+          color: $white;
+        }
+      }
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

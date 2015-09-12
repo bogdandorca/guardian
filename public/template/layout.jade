@@ -4,11 +4,19 @@ html
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1")
 
+        link(rel="stylesheet", type="text/css", href="href='https://fonts.googleapis.com/css?family=Lato:400,300")
+        link(rel="stylesheet", type="text/css", href="/vendor/fontawesome/css/font-awesome.min.css")
+        link(rel="stylesheet", type="text/css", href="/vendor/bootstrap/css/bootstrap.min.css")
+        link(rel="stylesheet", type="text/css", href="assets/styles/global.css")
+
         title Nookie
         base(href="/")
     body(ng-app="app")
         include header
-        .container(ng-view)
+
+        include sidebar
+
+        .content-body(ng-view)
             block main-block
 
         include scripts
