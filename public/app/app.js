@@ -13,3 +13,6 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
 
     $locationProvider.html5Mode(true);
 });
+angular.module('app').controller('DashboardCtrl', function($scope){
+    $scope.message = 'Working!!!';
+});
