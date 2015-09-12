@@ -3,6 +3,12 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
         .when('/', {
             templateUrl: './partials/dashboard',
             controller: 'DashboardCtrl'
+        })
+        .when('/login', {
+            templateUrl: './public/login'
+        })
+        .otherwise({
+            templateUrl: './partials/404'
         });
 
     $locationProvider.html5Mode(true);

@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'server-favicon' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node symlink C:\Program Files (x86)\nodejs\\node.exe
+5 warn package.json nookie@1.0.0 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'server-favicon', null ]
+8 verbose cache add name=undefined spec="server-favicon" args=["server-favicon",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'server-favicon',
+9 verbose parsed url   path: 'server-favicon',
+9 verbose parsed url   href: 'server-favicon' }
+10 silly lockFile cdc7e359-server-favicon server-favicon
+11 verbose lock server-favicon C:\Users\Bogdan\AppData\Roaming\npm-cache\cdc7e359-server-favicon.lock
+12 silly lockFile cdc7e359-server-favicon server-favicon
+13 silly lockFile cdc7e359-server-favicon server-favicon
+14 verbose addNamed [ 'server-favicon', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 0a85f052-server-favicon server-favicon@
+17 verbose lock server-favicon@ C:\Users\Bogdan\AppData\Roaming\npm-cache\0a85f052-server-favicon.lock
+18 silly addNameRange { name: 'server-favicon', range: '*', hasData: false }
+19 verbose request where is /server-favicon
+20 verbose request registry https://registry.npmjs.org/
+21 verbose request id e875731beecca179
+22 verbose url raw /server-favicon
+23 verbose url resolving [ 'https://registry.npmjs.org/', './server-favicon' ]
+24 verbose url resolved https://registry.npmjs.org/server-favicon
+25 verbose request where is https://registry.npmjs.org/server-favicon
+26 info trying registry request attempt 1 at 00:33:51
+27 http GET https://registry.npmjs.org/server-favicon
+28 http 404 https://registry.npmjs.org/server-favicon
+29 silly registry.get cb [ 404,
+29 silly registry.get   { 'content-type': 'application/json',
+29 silly registry.get     'cache-control': 'max-age=0',
+29 silly registry.get     'content-length': '2',
+29 silly registry.get     'accept-ranges': 'bytes',
+29 silly registry.get     date: 'Fri, 11 Sep 2015 21:33:57 GMT',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     age: '0',
+29 silly registry.get     connection: 'keep-alive',
+29 silly registry.get     'x-served-by': 'cache-fra1237-FRA',
+29 silly registry.get     'x-cache': 'MISS',
+29 silly registry.get     'x-cache-hits': '0',
+29 silly registry.get     'x-timer': 'S1442007237.033848,VS0,VE109' } ]
+30 silly lockFile 0a85f052-server-favicon server-favicon@
+31 silly lockFile 0a85f052-server-favicon server-favicon@
+32 error 404 Not Found
+32 error 404
+32 error 404 'server-favicon' is not in the npm registry.
+32 error 404 You should bug the author to publish it
+32 error 404 It was specified as a dependency of 'nookie'
+32 error 404
+32 error 404 Note that you can also install from a
+32 error 404 tarball, folder, or http url, or git url.
+33 error System Windows_NT 6.2.9200
+34 error command "C:\\Program Files (x86)\\nodejs\\\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "server-favicon"
+35 error cwd D:\workspace\nookie
+36 error node -v v0.10.35
+37 error npm -v 1.4.28
+38 error code E404
+39 verbose exit [ 1, true ]

@@ -1,3 +1,3 @@
-angular.module('app').controller(function($scope){
+angular.module('app').controller('DashboardCtrl', function($scope){
     $scope.message = 'Working!!!';
 });
