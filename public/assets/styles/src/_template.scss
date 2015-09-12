@@ -1,0 +1,11 @@
+.logo {
+  max-width: 50px;
+  margin-top: 10px;
+}
+.content-body {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 80px);
+  transition: width 0.3s;
+  padding: 10px 10px;
+}

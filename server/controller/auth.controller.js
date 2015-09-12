@@ -2,7 +2,7 @@
 
 module.exports = {
     isAuthenticated: function(req, res, next){
-        if(true === false){
+        if(true === true){
             next();
         } else {
             res.render('./partials/login');

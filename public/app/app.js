@@ -4,6 +4,10 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
             templateUrl: './partials/dashboard',
             controller: 'DashboardCtrl'
         })
+        .when('/users', {
+            templateUrl: './partials/users',
+            controller: 'UsersCtrl'
+        })
         .when('/login', {
             templateUrl: './public/login'
         })
@@ -15,4 +19,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
 });
 angular.module('app').controller('DashboardCtrl', function($scope){
     $scope.message = 'Working!!!';
+});
+angular.module('app').controller('UsersCtrl', function(){
+
 });

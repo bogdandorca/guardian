@@ -1,0 +1,10 @@
+.navbar {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.navbar-inverse {
+  background-color: $dark-color;
+  .navbar-brand {
+    font-family: $heading-font;
+  }
+}
