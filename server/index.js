@@ -13,6 +13,7 @@ mongoose.connect(config.database);
 console.log('Database connection established'.bold.green);
 
 // Views
+require('./view/users.view')(app);
 require('./view/public.view')(app);
 
 // Server

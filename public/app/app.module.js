@@ -6,7 +6,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
         })
         .when('/users', {
             templateUrl: './partials/users',
-            controller: 'UsersCtrl'
+            controller: 'UserCtrl'
         })
         .when('/login', {
             templateUrl: './public/login'
