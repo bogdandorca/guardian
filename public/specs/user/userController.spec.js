@@ -1,18 +1,21 @@
 describe('UserCtrl', function(){
-    var scope, controller, UserService, $httpBackend;
+    var scope, controller, UserService, Reporter, $httpBackend;
 
     beforeEach(angular.mock.module('app'));
-    beforeEach(inject(function($rootScope, $controller, _UserService_, _$httpBackend_){
+    beforeEach(inject(function($rootScope, $controller, _UserService_, _Reporter_, _$httpBackend_){
         scope = $rootScope.$new();
         controller = $controller('UserCtrl', {
             $scope: scope
         });
         UserService = _UserService_;
+        Reporter = _Reporter_;
         $httpBackend = _$httpBackend_;
     }));
 
     // Mock data
     var usersEndpoint = '/api/users';
+    var userEndpoint = '/api/user';
+    var deleteUserEndpoint = '/api/user/55f1eee2cfb224140b290f08';
     var userList = [
         {
             _id: "55f1eee2cfb224140b290f08",
@@ -52,19 +55,38 @@ describe('UserCtrl', function(){
 
             expect(scope.users).toEqual(userList);
         });
-        it('should send the user an error message if the request was rejected', function(){
+        it('should send an error message if the request failed', function(){
             $httpBackend
                 .expectGET(usersEndpoint)
                 .respond(500);
 
             spyOn(UserService, 'getUsers').and.callThrough();
-            spyOn(toastr, 'error');
+            spyOn(Reporter.error, 'server');
 
             // scope.getUsers() si already called when loading the controller
             //scope.getUsers();
             $httpBackend.flush();
 
-            expect(toastr.error).toHaveBeenCalledWith('Your request could not be processed');
+            expect(Reporter.error.server).toHaveBeenCalled();
+        });
+    });
+    describe('deleteUser', function(){
+        beforeEach(function(){
+            scope.users = userList;
+            $httpBackend
+                .expectGET(usersEndpoint)
+                .respond(200, userList);
+            $httpBackend.flush();
+        });
+        it('should trigger the prompt message', function(){
+            spyOn(Reporter.prompt, 'choice');
+            scope.promptUserDelete(0);
+            expect(Reporter.prompt.choice).toHaveBeenCalled();
+        });
+        it('should call the UserService.deleteUser with the userId', function(){
+            spyOn(UserService, 'deleteUser');
+            scope.deleteUser(0);
+            expect(UserService.deleteUser).toHaveBeenCalled();
         });
     });
 });

@@ -20,7 +20,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
 angular.module('app').controller('DashboardCtrl', function($scope){
     $scope.message = 'Working!!!';
 });
-angular.module('app').controller('UserCtrl', function($scope, UserService){
+angular.module('app').controller('UserCtrl', function($scope, UserService, Reporter){
     $scope.users = null;
 
     $scope.getUsers = function(){
@@ -28,10 +28,26 @@ angular.module('app').controller('UserCtrl', function($scope, UserService){
             if(response){
                 $scope.users = response;
             } else {
-                toastr.error('Your request could not be processed');
+                Reporter.error.server();
             }
         });
     };
+
+    // DELETE
+    $scope.deleteUser = function(index){
+        UserService.deleteUser($scope.users[index]._id, function(){
+            $scope.users.splice(index, 1);
+        });
+    };
+    $scope.promptUserDelete = function(index){
+        Reporter.prompt.choice({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to delete user "'+$scope.users[index].email+'"?'
+        }, function(){
+            $scope.deleteUser(index);
+        });
+    };
+
 
     $scope.getUsers();
 });
@@ -46,15 +62,75 @@ angular.module('app').filter('RoleFilter', function(){
         return roleNames[role] ? roleNames[role] : 'none';
     };
 });
-angular.module('app').factory('UserService', function($http){
+angular.module('app').factory('Reporter', function(){
+    return {
+        error: {
+            server: function(){
+                swal({
+                    title: 'Server error!',
+                    text: 'Unfortunately your request could not be processed by our server. Please try again.',
+                    type: 'error',
+                    animation: 'slide-from-top',
+                    confirmButtonText: 'Damn!'
+                });
+            },
+            authorization: function(){
+                swal({
+                    title: 'Not Authorized!',
+                    text: 'Unfortunately you are not authorized to so this.',
+                    type: 'error',
+                    animation: 'slide-from-top',
+                    confirmButtonText: 'You are right :('
+                });
+            }
+        },
+        prompt: {
+            choice: function(message, callback){
+                swal({
+                    title: message.title,
+                    text: message.text,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#D9534F",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, callback);
+            }
+        },
+        notification: {
+            success: function(message){
+                swal({
+                    title: "Good job!",
+                    text: message,
+                    type: "success"
+                });
+            }
+        }
+    };
+});
+angular.module('app').factory('UserService', function($http, Reporter){
     return {
         getUsers: function(callback){
             $http.get('/api/users')
                 .success(function(users){
                     callback(users);
                 })
-                .error(function(err){
+                .error(function(){
                     callback(null);
+                });
+        },
+        deleteUser: function(userId, callback){
+            $http.delete('/api/user/' + userId)
+                .success(function(){
+                    Reporter.notification.success('The user has been successfully deleted');
+                    callback();
+                })
+                .error(function(data, responseCode){
+                    if(responseCode === 401){
+                        Reporter.error.authorization();
+                    } else {
+                        Reporter.error.server();
+                    }
                 });
         }
     };

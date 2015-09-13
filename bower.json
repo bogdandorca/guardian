@@ -1,0 +1,24 @@
+{
+  "name": "nookie",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bogdandorca/nookie",
+  "authors": [
+    "bogdandorca <bogdandorca@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-mocks": "~1.4.5",
+    "angular-route": "~1.4.5",
+    "sweetalert": "~1.1.0",
+    "fontawesome": "~4.4.0",
+    "angular": "~1.4.5"
+  }
+}

@@ -1,4 +1,4 @@
-angular.module('app').controller('UserCtrl', function($scope, UserService){
+angular.module('app').controller('UserCtrl', function($scope, UserService, Reporter){
     $scope.users = null;
 
     $scope.getUsers = function(){
@@ -6,10 +6,26 @@ angular.module('app').controller('UserCtrl', function($scope, UserService){
             if(response){
                 $scope.users = response;
             } else {
-                toastr.error('Your request could not be processed');
+                Reporter.error.server();
             }
         });
     };
+
+    // DELETE
+    $scope.deleteUser = function(index){
+        UserService.deleteUser($scope.users[index]._id, function(){
+            $scope.users.splice(index, 1);
+        });
+    };
+    $scope.promptUserDelete = function(index){
+        Reporter.prompt.choice({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to delete user "'+$scope.users[index].email+'"?'
+        }, function(){
+            $scope.deleteUser(index);
+        });
+    };
+
 
     $scope.getUsers();
 });

@@ -1,14 +1,16 @@
 describe('UserService', function(){
-    var UserService, $httpBackend;
+    var UserService, Reporter, $httpBackend;
 
     beforeEach(angular.mock.module('app'));
-    beforeEach(inject(function(_UserService_, _$httpBackend_){
+    beforeEach(inject(function(_UserService_, _Reporter_, _$httpBackend_){
         UserService = _UserService_;
+        Reporter = _Reporter_;
         $httpBackend = _$httpBackend_;
     }));
 
     // Mock data
     var usersEndpoint = '/api/users';
+    var userEndpoint = '/api/user';
     var userList = [
         {
             _id: "55f1eee2cfb224140b290f08",
@@ -67,6 +69,32 @@ describe('UserService', function(){
             $httpBackend.flush();
 
             expect(expectedResponse).toBe(null);
+        });
+    });
+    describe('deleteUser', function(){
+        it('should send a notification based on the server response', function(){
+            spyOn(Reporter.notification, 'success');
+            spyOn(Reporter.error, 'authorization');
+            spyOn(Reporter.error, 'server');
+
+            var responseCodesToBeTested = [200, 401, 500],
+                responseTriggers = [Reporter.notification.success, Reporter.error.authorization, Reporter.error.server];
+            for(var i=0; i<responseCodesToBeTested.length; i++){
+                $httpBackend
+                    .expectDELETE(userEndpoint+'/55f1eee2cfb224140b290f08')
+                    .respond(parseInt(responseCodesToBeTested[i]));
+
+                UserService.deleteUser(userList[0]._id, function(){});
+                $httpBackend.flush();
+
+                expect(responseTriggers[i]).toHaveBeenCalled();
+            }
+        });
+    });
+    describe('addUser', function(){
+        it('should send an API request', function(){
+            $httpBackend
+                .expectPOST(userEndpoint)
         });
     });
 });

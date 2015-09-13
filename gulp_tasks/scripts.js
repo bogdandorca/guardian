@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     chalk = require('chalk');
 
+// TODO: ADD console log removers
 var scripts = {
     linter: function(){
         console.log(chalk.cyan('Checking JS syntax...'));
