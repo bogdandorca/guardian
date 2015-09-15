@@ -3,13 +3,21 @@ var express = require('express'),
     UsersController = require('../controller/users.controller');
 
 module.exports = function(app){
-    Router.route('/users')
+    Router.route('/users/:page')
         .get(function(req, res){
             UsersController.getUsers(req, res);
+        });
+    Router.route('/user')
+        .post(function(req, res){
+            UsersController.addUser(req, res);
         });
     Router.route('/user/:id')
         .delete(function(req, res){
             UsersController.deleteUser(req, res);
+        });
+    Router.route('/user/search/:input')
+        .get(function(req, res){
+            UsersController.search(req, res);
         });
 
     app.use('/api', Router);

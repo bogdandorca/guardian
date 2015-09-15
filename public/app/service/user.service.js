@@ -1,7 +1,7 @@
 angular.module('app').factory('UserService', function($http, Reporter){
     return {
-        getUsers: function(callback){
-            $http.get('/api/users')
+        getUsers: function(page, callback){
+            $http.get('/api/users/'+page)
                 .success(function(users){
                     callback(users);
                 })
@@ -21,6 +21,30 @@ angular.module('app').factory('UserService', function($http, Reporter){
                     } else {
                         Reporter.error.server();
                     }
+                });
+        },
+        addUser: function(User, callback){
+            $http.post('/api/user', User)
+                .success(function(User){
+                    callback(User);
+                    Reporter.notification.success('The user has been successfully added');
+                })
+                .error(function(data, responseCode){
+                    callback();
+                    if(responseCode === 401){
+                        Reporter.error.authorization();
+                    } else {
+                        Reporter.error.server();
+                    }
+                });
+        },
+        search: function(data, callback){
+            $http.get('/api/user/search/'+data)
+                .success(function(user){
+                    callback(user);
+                })
+                .error(function(){
+                    Reporter.error.server();
                 });
         }
     };

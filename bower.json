@@ -15,10 +15,11 @@
     "tests"
   ],
   "dependencies": {
+    "angular": "~1.4.5",
     "angular-mocks": "~1.4.5",
     "angular-route": "~1.4.5",
-    "sweetalert": "~1.1.0",
     "fontawesome": "~4.4.0",
-    "angular": "~1.4.5"
+    "moment": "~2.10.6",
+    "sweetalert": "~1.1.0"
   }
 }

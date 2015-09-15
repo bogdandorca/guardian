@@ -8,6 +8,10 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
             templateUrl: './partials/users',
             controller: 'UserCtrl'
         })
+        .when('/user/create', {
+            templateUrl: './partials/addUser',
+            controller: 'UserCtrl'
+        })
         .when('/login', {
             templateUrl: './public/login'
         })

@@ -1,6 +1,12 @@
 .page-title {
   padding-bottom: 5px;
   border-bottom: 1px solid $separator;
+  h1 {
+    float: left;
+  }
+  .title-aside {
+    float: right;
+  }
 }
 .page-body {
   margin-top: 20px;

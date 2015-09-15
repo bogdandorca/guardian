@@ -8,6 +8,10 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
             templateUrl: './partials/users',
             controller: 'UserCtrl'
         })
+        .when('/user/create', {
+            templateUrl: './partials/addUser',
+            controller: 'UserCtrl'
+        })
         .when('/login', {
             templateUrl: './public/login'
         })
@@ -20,11 +24,27 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
 angular.module('app').controller('DashboardCtrl', function($scope){
     $scope.message = 'Working!!!';
 });
-angular.module('app').controller('UserCtrl', function($scope, UserService, Reporter){
+angular.module('app').controller('UserCtrl', function($scope, $location, UserService, Reporter){
     $scope.users = null;
+    $scope.user = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        role: 0
+    };
+    // Pagination
+    $scope.page = 1;
+    // TODO: dynamically load this
+    $scope.lastPage = 2;
+
+    $scope.rowDisplayRules = function(role){
+        var classes = ['clickable', 'blue-background', 'red-background'];
+        return classes[role];
+    };
 
     $scope.getUsers = function(){
-        UserService.getUsers(function(response){
+        UserService.getUsers($scope.page, function(response){
             if(response){
                 $scope.users = response;
             } else {
@@ -48,8 +68,59 @@ angular.module('app').controller('UserCtrl', function($scope, UserService, Repor
         });
     };
 
+    $scope.addUser = function(){
+        UserService.addUser($scope.user, function(User){
+            if(User){
+                $scope.user = null;
+                $location.path('/users');
+            }
+        });
+    };
+    $scope.search = function(input){
+        if(input && input.length > 0){
+            UserService.search(input, function(userData){
+                $scope.users = userData;
+            });
+        } else {
+            $scope.getUsers();
+        }
+    };
+    $scope.toggleRole = function(){
+        if($scope.user.role && $scope.user.role === 1){
+            $scope.user.role = 0;
+        } else {
+            $scope.user.role = 1;
+        }
+    };
 
-    $scope.getUsers();
+    // Pagination
+    $scope.goToPage = function(page){
+        $scope.page = page;
+        $scope.getUsers();
+    };
+    $scope.previousPage = function(){
+        if($scope.page > 1){
+            $scope.page--;
+            $scope.getUsers();
+        }
+    };
+    $scope.nextPage = function(){
+        if($scope.page < $scope.lastPage){
+            $scope.page++;
+            $scope.getUsers();
+        }
+    };
+});
+angular.module('app').filter('MomentParse', function(){
+    return function(date){
+        if(date && moment(date, 'X').isValid()){
+            return moment(date, 'X').format('Do MMMM YYYY');
+        } else if(!date) {
+            return 'Not available';
+        } else {
+            return date;
+        }
+    };
 });
 angular.module('app').filter('RoleFilter', function(){
     return function(role){
@@ -110,8 +181,8 @@ angular.module('app').factory('Reporter', function(){
 });
 angular.module('app').factory('UserService', function($http, Reporter){
     return {
-        getUsers: function(callback){
-            $http.get('/api/users')
+        getUsers: function(page, callback){
+            $http.get('/api/users/'+page)
                 .success(function(users){
                     callback(users);
                 })
@@ -131,6 +202,30 @@ angular.module('app').factory('UserService', function($http, Reporter){
                     } else {
                         Reporter.error.server();
                     }
+                });
+        },
+        addUser: function(User, callback){
+            $http.post('/api/user', User)
+                .success(function(User){
+                    callback(User);
+                    Reporter.notification.success('The user has been successfully added');
+                })
+                .error(function(data, responseCode){
+                    callback();
+                    if(responseCode === 401){
+                        Reporter.error.authorization();
+                    } else {
+                        Reporter.error.server();
+                    }
+                });
+        },
+        search: function(data, callback){
+            $http.get('/api/user/search/'+data)
+                .success(function(user){
+                    callback(user);
+                })
+                .error(function(){
+                    Reporter.error.server();
                 });
         }
     };

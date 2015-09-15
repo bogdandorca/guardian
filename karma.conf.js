@@ -24,13 +24,14 @@ module.exports = function(config) {
         './public/app/**/*.service.js',
         './public/app/**/*.filter.js',
         './public/app/**/*.directive.js',
-        './public/specs/**/*.js'
+        './specs/**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-        './public/app/app.js'
+        './public/app/app.js',
+        './specs/functional/**/*.js'
     ],
 
 

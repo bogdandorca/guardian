@@ -1,8 +1,16 @@
 .container-fluid
-    .page-title
-        h1 Manage Users
-    .page-body
-        table.table.table-striped.table-hover
+    .page-title.col-md-12
+        h1.col-md-6 Manage Users
+        .title-aside.col-md-3
+            .input-group
+                input(type="text", ng-model="searchInput", ng-change="search(searchInput)", placeholder="Search by email").form-control
+                span.input-group-btn
+                    button.btn.btn-primary.fa.fa-search
+    .page-body.col-md-12(ng-init="getUsers()")
+        // Error
+        h2(ng-show="(users && users.length === 0)") Unfortunately there are no results to display
+        // Data
+        table.table.table-striped.table-hover.col-md-12(ng-show="(users && users.length > 0)")
             thead
                 tr
                     th #
@@ -19,14 +27,22 @@
                     th
                     th
             tbody
-                tr(ng-repeat="user in users track by $index")
+                tr(ng-repeat="user in users track by $index", ng-class="rowDisplayRules(user.role)")
                     td {{$index + 1}}
                     td {{user.lastName}}
                     td {{user.firstName}}
                     td {{user.email}}
                     td.text-capitalize {{user.role | RoleFilter}}
-                    td {{user.creationDate}}
+                    td {{user.creationDate | MomentParse}}
                     td
                         a(href="#", ng-show="user.role === 0") Edit
                     td
                         a(href="#", ng-show="user.role === 0", ng-click="promptUserDelete($index)") Delete
+        // nav
+        nav(ng-show="(users && users.length > 0)")
+            ul.pagination
+                li(ng-class="{'disabled': page === 1}")
+                    a(href="#", ng-click="previousPage()") &laquo;
+                        span.sr-only (current)
+                li(ng-class="{'disabled': page === lastPage}")
+                    a(href="#", ng-click="nextPage()") &raquo;
