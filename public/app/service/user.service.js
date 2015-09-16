@@ -33,7 +33,12 @@ angular.module('app').factory('UserService', function($http, Reporter){
                     callback();
                     if(responseCode === 401){
                         Reporter.error.authorization();
-                    } else {
+                    } else if(responseCode === 403) {
+                        Reporter.error.custom({
+                            title: 'Umm.. mate...',
+                            text: 'The email address is already used. Try another.'
+                        });
+                    } else{
                         Reporter.error.server();
                     }
                 });

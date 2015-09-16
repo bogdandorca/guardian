@@ -12,6 +12,9 @@ module.exports = function(app){
             UsersController.addUser(req, res);
         });
     Router.route('/user/:id')
+        .get(function(req, res){
+            UsersController.getUser(req, res);
+        })
         .delete(function(req, res){
             UsersController.deleteUser(req, res);
         });

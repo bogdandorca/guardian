@@ -1,16 +1,12 @@
-angular.module('app').controller('UserCtrl', function($scope, $location, UserService, Reporter){
+angular.module('app').controller('UserCtrl', function($scope, $location, UserService, StatsService, Reporter){
     $scope.users = null;
-    $scope.user = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        role: 0
-    };
     // Pagination
+    var usersPerPage = 10;
     $scope.page = 1;
-    // TODO: dynamically load this
-    $scope.lastPage = 2;
+    $scope.lastPage = 1;
+    $scope.getPagesArray = function(){
+        return new Array($scope.lastPage);
+    };
 
     $scope.rowDisplayRules = function(role){
         var classes = ['clickable', 'blue-background', 'red-background'];
@@ -26,7 +22,6 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             }
         });
     };
-
     // DELETE
     $scope.deleteUser = function(index){
         UserService.deleteUser($scope.users[index]._id, function(){
@@ -41,33 +36,12 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             $scope.deleteUser(index);
         });
     };
-
-    $scope.addUser = function(){
-        UserService.addUser($scope.user, function(User){
-            if(User){
-                $scope.user = null;
-                $location.path('/users');
-            }
+    // Pagination
+    $scope.initializePagination = function(){
+        StatsService.getNumberOfUsers(function(data){
+            $scope.lastPage = Math.ceil(parseInt(data)/usersPerPage);
         });
     };
-    $scope.search = function(input){
-        if(input && input.length > 0){
-            UserService.search(input, function(userData){
-                $scope.users = userData;
-            });
-        } else {
-            $scope.getUsers();
-        }
-    };
-    $scope.toggleRole = function(){
-        if($scope.user.role && $scope.user.role === 1){
-            $scope.user.role = 0;
-        } else {
-            $scope.user.role = 1;
-        }
-    };
-
-    // Pagination
     $scope.goToPage = function(page){
         $scope.page = page;
         $scope.getUsers();

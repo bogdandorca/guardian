@@ -2,10 +2,7 @@
     .page-title.col-md-12
         h1.col-md-6 Manage Users
         .title-aside.col-md-3
-            .input-group
-                input(type="text", ng-model="searchInput", ng-change="search(searchInput)", placeholder="Search by email").form-control
-                span.input-group-btn
-                    button.btn.btn-primary.fa.fa-search
+            user-search-bar
     .page-body.col-md-12(ng-init="getUsers()")
         // Error
         h2(ng-show="(users && users.length === 0)") Unfortunately there are no results to display
@@ -39,10 +36,12 @@
                     td
                         a(href="#", ng-show="user.role === 0", ng-click="promptUserDelete($index)") Delete
         // nav
-        nav(ng-show="(users && users.length > 0)")
+        nav(ng-show="(users && users.length > 0)", ng-init="initializePagination()")
             ul.pagination
                 li(ng-class="{'disabled': page === 1}")
                     a(href="#", ng-click="previousPage()") &laquo;
                         span.sr-only (current)
+                li(ng-repeat="pg in getPagesArray() track by $index", ng-class="{'disabled': page === ($index+1)}")
+                    a(href="#", ng-click="goToPage($index+1)") {{$index + 1}}
                 li(ng-class="{'disabled': page === lastPage}")
                     a(href="#", ng-click="nextPage()") &raquo;

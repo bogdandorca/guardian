@@ -14,6 +14,20 @@ module.exports = {
             }
         }).limit(this.usersPerPage).skip((page-1)*this.usersPerPage);
     },
+    getUser: function(req, res){
+        var userId = req.params.id;
+        User.findOne({_id: userId}, '-password -salt', function(err, data){
+            if(!err){
+                if(data){
+                    res.status(200).send(data);
+                } else {
+                    res.status(400).send(data);
+                }
+            } else {
+                res.status(500).send('Server error');
+            }
+        });
+    },
     deleteUser: function(req, res){
         var userId = req.params.id;
         User.remove({_id: userId}, function(err){
@@ -37,7 +51,7 @@ module.exports = {
                         }
                     });
                 } else {
-                    res.status(500).send(response);
+                    res.status(403).send(response);
                 }
             });
         }

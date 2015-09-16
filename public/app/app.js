@@ -10,7 +10,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
         })
         .when('/user/create', {
             templateUrl: './partials/addUser',
-            controller: 'UserCtrl'
+            controller: 'AddUserCtrl'
         })
         .when('/login', {
             templateUrl: './public/login'
@@ -21,11 +21,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
 
     $locationProvider.html5Mode(true);
 });
-angular.module('app').controller('DashboardCtrl', function($scope){
-    $scope.message = 'Working!!!';
-});
-angular.module('app').controller('UserCtrl', function($scope, $location, UserService, Reporter){
-    $scope.users = null;
+angular.module('app').controller('AddUserCtrl', function($scope, UserService, $location){
     $scope.user = {
         firstName: '',
         lastName: '',
@@ -33,10 +29,34 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
         password: '',
         role: 0
     };
+    $scope.addUser = function(){
+        UserService.addUser($scope.user, function(User){
+            if(User){
+                $scope.user = null;
+                $location.path('/users');
+            }
+        });
+    };
+    $scope.toggleRole = function(){
+        if($scope.user.role && $scope.user.role === 1){
+            $scope.user.role = 0;
+        } else {
+            $scope.user.role = 1;
+        }
+    };
+});
+angular.module('app').controller('DashboardCtrl', function($scope){
+    $scope.message = 'Working!!!';
+});
+angular.module('app').controller('UserCtrl', function($scope, $location, UserService, StatsService, Reporter){
+    $scope.users = null;
     // Pagination
+    var usersPerPage = 10;
     $scope.page = 1;
-    // TODO: dynamically load this
-    $scope.lastPage = 2;
+    $scope.lastPage = 1;
+    $scope.getPagesArray = function(){
+        return new Array($scope.lastPage);
+    };
 
     $scope.rowDisplayRules = function(role){
         var classes = ['clickable', 'blue-background', 'red-background'];
@@ -52,7 +72,6 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             }
         });
     };
-
     // DELETE
     $scope.deleteUser = function(index){
         UserService.deleteUser($scope.users[index]._id, function(){
@@ -67,33 +86,12 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             $scope.deleteUser(index);
         });
     };
-
-    $scope.addUser = function(){
-        UserService.addUser($scope.user, function(User){
-            if(User){
-                $scope.user = null;
-                $location.path('/users');
-            }
+    // Pagination
+    $scope.initializePagination = function(){
+        StatsService.getNumberOfUsers(function(data){
+            $scope.lastPage = Math.ceil(parseInt(data)/usersPerPage);
         });
     };
-    $scope.search = function(input){
-        if(input && input.length > 0){
-            UserService.search(input, function(userData){
-                $scope.users = userData;
-            });
-        } else {
-            $scope.getUsers();
-        }
-    };
-    $scope.toggleRole = function(){
-        if($scope.user.role && $scope.user.role === 1){
-            $scope.user.role = 0;
-        } else {
-            $scope.user.role = 1;
-        }
-    };
-
-    // Pagination
     $scope.goToPage = function(page){
         $scope.page = page;
         $scope.getUsers();
@@ -109,6 +107,24 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             $scope.page++;
             $scope.getUsers();
         }
+    };
+});
+angular.module('app').directive('userSearchBar', function(UserService){
+    var linker = function(scope, element){
+        scope.search = function(input){
+            if(input && input.length > 0){
+                UserService.search(input, function(userData){
+                    scope.users = userData;
+                });
+            } else {
+                scope.getUsers();
+            }
+        };
+    };
+    return {
+        restrict: 'E',
+        template: '<input type="text" ng-model="searchInput" ng-change="search(searchInput)" placeholder="Search by email" class="form-control">',
+        link: linker
     };
 });
 angular.module('app').filter('MomentParse', function(){
@@ -153,6 +169,15 @@ angular.module('app').factory('Reporter', function(){
                     animation: 'slide-from-top',
                     confirmButtonText: 'You are right :('
                 });
+            },
+            custom: function(data){
+                swal({
+                    title: data.title,
+                    text: data.text,
+                    type: 'error',
+                    animation: 'slide-from-top',
+                    confirmButtonText: 'You are right :('
+                });
             }
         },
         prompt: {
@@ -176,6 +201,19 @@ angular.module('app').factory('Reporter', function(){
                     type: "success"
                 });
             }
+        }
+    };
+});
+angular.module('app').factory('StatsService', function(Reporter, $http){
+    return {
+        getNumberOfUsers: function(callback){
+            $http.get('/api/stats/users/number')
+                .success(function(data){
+                    callback(data);
+                })
+                .error(function(){
+                    Reporter.error.server();
+                });
         }
     };
 });
@@ -214,7 +252,12 @@ angular.module('app').factory('UserService', function($http, Reporter){
                     callback();
                     if(responseCode === 401){
                         Reporter.error.authorization();
-                    } else {
+                    } else if(responseCode === 403) {
+                        Reporter.error.custom({
+                            title: 'Umm.. mate...',
+                            text: 'The email address is already used. Try another.'
+                        });
+                    } else{
                         Reporter.error.server();
                     }
                 });

@@ -10,7 +10,7 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
         })
         .when('/user/create', {
             templateUrl: './partials/addUser',
-            controller: 'UserCtrl'
+            controller: 'AddUserCtrl'
         })
         .when('/login', {
             templateUrl: './public/login'

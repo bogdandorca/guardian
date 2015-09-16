@@ -39,6 +39,23 @@ describe('Reporter', function(){
                 expect(window.swal).toHaveBeenCalledWith(Error);
             });
         });
+        describe('custom', function(){
+            var Error = {
+                title: 'Umm.. mate...',
+                text: 'The email address already exists',
+                type: 'error',
+                animation: 'slide-from-top',
+                confirmButtonText: 'You are right :('
+            };
+            it('should call the service with the specified error', function(){
+                spyOn(window, 'swal');
+                Reporter.error.custom({
+                    title: 'Umm.. mate...',
+                    text: 'The email address already exists'
+                });
+                expect(window.swal).toHaveBeenCalledWith(Error);
+            });
+        });
     });
     describe('Prompt', function(){
         describe('Choice', function(){

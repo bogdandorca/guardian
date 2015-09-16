@@ -18,6 +18,15 @@ angular.module('app').factory('Reporter', function(){
                     animation: 'slide-from-top',
                     confirmButtonText: 'You are right :('
                 });
+            },
+            custom: function(data){
+                swal({
+                    title: data.title,
+                    text: data.text,
+                    type: 'error',
+                    animation: 'slide-from-top',
+                    confirmButtonText: 'You are right :('
+                });
             }
         },
         prompt: {
