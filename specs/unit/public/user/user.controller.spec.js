@@ -14,7 +14,7 @@ describe('UserCtrl', function(){
     }));
 
     // Mock data
-    var usersEndpoint = '/api/users/1';
+    var getUsersEndpoint = '/api/users?limit=10&page=1';
     var userList = [
         {
             _id: "55f1eee2cfb224140b290f08",
@@ -43,7 +43,7 @@ describe('UserCtrl', function(){
         });
         it('should append the lists of users to the scope', function(){
             $httpBackend
-                .expectGET(usersEndpoint)
+                .expectGET(getUsersEndpoint)
                 .respond(200, userList);
 
             spyOn(UserService, 'getUsers').and.callThrough();
@@ -55,7 +55,7 @@ describe('UserCtrl', function(){
         });
         it('should send an error message if the request failed', function(){
             $httpBackend
-                .expectGET(usersEndpoint)
+                .expectGET(getUsersEndpoint)
                 .respond(500);
 
             spyOn(UserService, 'getUsers').and.callThrough();
@@ -70,11 +70,6 @@ describe('UserCtrl', function(){
     describe('deleteUser', function(){
         beforeEach(function(){
             scope.users = userList;
-            $httpBackend
-                .expectGET(usersEndpoint)
-                .respond(200, userList);
-            scope.getUsers();
-            $httpBackend.flush();
         });
         it('should trigger the prompt message', function(){
             spyOn(Reporter.prompt, 'choice');

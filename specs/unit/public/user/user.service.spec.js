@@ -9,8 +9,8 @@ describe('UserService', function(){
     }));
 
     // Mock data
-    var usersEndpoint = '/api/users';
-    var userEndpoint = '/api/user';
+    var getUsersEndpoint = '/api/users?limit=10&page=1';
+    var userEndpoint = '/api/users';
     var userList = [
         {
             _id: "55f1eee2cfb224140b290f08",
@@ -33,7 +33,7 @@ describe('UserService', function(){
     describe('getUsers', function(){
         it('should send a HTTP call to the specific endpoint', function(){
             $httpBackend
-                .expectGET(usersEndpoint + '/1')
+                .expectGET(getUsersEndpoint)
                 .respond(200);
 
             var success;
@@ -46,7 +46,7 @@ describe('UserService', function(){
         });
         it('should return a list of users if the request succeeded', function(){
             $httpBackend
-                .expectGET(usersEndpoint+'/1')
+                .expectGET(getUsersEndpoint)
                 .respond(200, userList);
 
             var expectedUserList;
@@ -59,7 +59,7 @@ describe('UserService', function(){
         });
         it('should return NULL if the request fails', function(){
             $httpBackend
-                .expectGET(usersEndpoint+'/1')
+                .expectGET(getUsersEndpoint)
                 .respond(500, 'Server unavailable');
 
             var expectedResponse;
@@ -177,6 +177,87 @@ describe('UserService', function(){
             $httpBackend.flush();
 
             expect(Reporter.error.server).toHaveBeenCalled();
+        });
+    });
+    describe('getUser', function(){
+        it('should alert the user in case the userId is not sent', function(){
+            spyOn(Reporter.error, 'custom');
+            UserService.getUser('', function(){});
+
+            expect(Reporter.error.custom).toHaveBeenCalled();
+        });
+        it('should send a HTTP call to the specific endpoint', function(){
+            $httpBackend
+                .expectGET(userEndpoint+'/'+userList[0]._id)
+                .respond(200);
+
+            var success;
+            UserService.getUser(userList[0]._id, function(){
+                success = true;
+            });
+            $httpBackend.flush();
+
+            expect(success).toBe(true);
+        });
+        it('should return a list of users if the request succeeded', function(){
+            $httpBackend
+                .expectGET(userEndpoint+'/'+userList[0]._id)
+                .respond(200, userList[0]);
+
+            var expectedUser;
+            UserService.getUser(userList[0]._id, function(users){
+                expectedUser = users;
+            });
+            $httpBackend.flush();
+
+            expect(expectedUser).toEqual(userList[0]);
+        });
+        it('should alert the user regarding the error code if the request fails', function(){
+            spyOn(Reporter.error, 'custom');
+            spyOn(Reporter.error, 'authorization');
+            spyOn(Reporter.error, 'server');
+
+            var responseCodesToBeTested = [400, 401, 500],
+                responseTriggers = [Reporter.error.custom, Reporter.error.authorization, Reporter.error.server];
+            for(var i=0; i<responseCodesToBeTested.length; i++){
+                $httpBackend
+                    .expectGET(userEndpoint+'/'+userList[0]._id)
+                    .respond(parseInt(responseCodesToBeTested[i]));
+
+                UserService.getUser(userList[0]._id, function(){});
+                $httpBackend.flush();
+
+                expect(responseTriggers[i]).toHaveBeenCalled();
+            }
+        });
+    });
+    describe('editUser', function(){
+        var User = {
+            _id: "55f1eee2cfb224140b290f08",
+            firstName: "Edit",
+            lastName: "User",
+            email: "admin@sparrow.com",
+            creationDate: "Thu Sep 10 2015 23:57:03 GMT+0300",
+            role: 2
+        };
+        it('should send a specific message after the request is processed', function(){
+            spyOn(Reporter.notification, 'success');
+            spyOn(Reporter.error, 'custom');
+            spyOn(Reporter.error, 'authorization');
+            spyOn(Reporter.error, 'server');
+
+            var responseCodesToBeTested = [200, 400, 401, 500],
+                responseTriggers = [Reporter.notification.success, Reporter.error.custom, Reporter.error.authorization, Reporter.error.server];
+            for(var i=0; i<responseCodesToBeTested.length; i++){
+                $httpBackend
+                    .expectPUT(userEndpoint)
+                    .respond(parseInt(responseCodesToBeTested[i]));
+
+                UserService.editUser(User, function(){});
+                $httpBackend.flush();
+
+                expect(responseTriggers[i]).toHaveBeenCalled();
+            }
         });
     });
 });

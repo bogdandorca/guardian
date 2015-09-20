@@ -24,7 +24,7 @@
                     th
                     th
             tbody
-                tr(ng-repeat="user in users track by $index", ng-class="rowDisplayRules(user.role)")
+                tr(ng-repeat="user in users track by $index", ng-class="rowDisplayRules(user.role)", ng-click="getUserInfo($index)")
                     td {{$index + 1}}
                     td {{user.lastName}}
                     td {{user.firstName}}
@@ -32,9 +32,9 @@
                     td.text-capitalize {{user.role | RoleFilter}}
                     td {{user.creationDate | MomentParse}}
                     td
-                        a(href="#", ng-show="user.role === 0") Edit
+                        a(href="", ng-show="user.role === 0", ng-click="editUser($index, $event)") Edit
                     td
-                        a(href="#", ng-show="user.role === 0", ng-click="promptUserDelete($index)") Delete
+                        a(href="", ng-show="user.role === 0", ng-click="promptUserDelete($index, $event)") Delete
         // nav
         nav(ng-show="(users && users.length > 0)", ng-init="initializePagination()")
             ul.pagination

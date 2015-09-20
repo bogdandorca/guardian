@@ -9,7 +9,7 @@ describe('AddUserCtrl', function(){
             $scope: scope
         });
     }));
-    var userEndpoint = '/api/user';
+    var userEndpoint = '/api/users';
 
     describe('addUser', function(){
         it('should call the UserService to add the new user\'s data', function(){

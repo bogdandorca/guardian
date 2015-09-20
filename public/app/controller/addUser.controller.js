@@ -14,6 +14,7 @@ angular.module('app').controller('AddUserCtrl', function($scope, UserService, $l
             }
         });
     };
+
     $scope.toggleRole = function(){
         if($scope.user.role && $scope.user.role === 1){
             $scope.user.role = 0;

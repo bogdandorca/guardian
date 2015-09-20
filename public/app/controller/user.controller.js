@@ -22,19 +22,30 @@ angular.module('app').controller('UserCtrl', function($scope, $location, UserSer
             }
         });
     };
+    $scope.getUserInfo = function(index){
+        if($scope.users[index] && $scope.users[index].role === 0){
+            $location.path('/user/'+$scope.users[index]._id);
+        }
+    };
+    // EDIT
+    $scope.editUser = function(index, $event){
+        $location.path('user/edit/'+$scope.users[index]._id);
+        $event.stopPropagation();
+    };
     // DELETE
     $scope.deleteUser = function(index){
         UserService.deleteUser($scope.users[index]._id, function(){
             $scope.users.splice(index, 1);
         });
     };
-    $scope.promptUserDelete = function(index){
+    $scope.promptUserDelete = function(index, $event){
         Reporter.prompt.choice({
             title: 'Are you sure?',
             text: 'Are you sure you want to delete user "'+$scope.users[index].email+'"?'
         }, function(){
             $scope.deleteUser(index);
         });
+        $event.stopPropagation();
     };
     // Pagination
     $scope.initializePagination = function(){

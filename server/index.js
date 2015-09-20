@@ -5,7 +5,7 @@ var express = require('express'),
 
 app = express();
 // Config
-var config = require('./config/env')[env];
+var config = require('../config.js')[env];
 require('./config/viewEngine')(app);
 
 // Database

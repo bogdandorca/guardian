@@ -32,12 +32,12 @@ Run the server on **development** mode.
 
 ### lint
 
-Set watcher to lint the JS files.
+Lint for the client and server JS files.
 
-### scripts-concatenate
+### concat
 
-Set watchers to concatenate Client JS files.
+Concatenates JS Files.
 
-### styles-development
+### sass
 
-Set watchers to compile and auto-prefix Sass.
+Compiles Sass files and autoprefixes them

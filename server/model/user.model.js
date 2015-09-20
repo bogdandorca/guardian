@@ -29,6 +29,9 @@ UserSchema.methods.isValid = function(){
     return (this.email && this.email.length > 5 && this.email.length <40) &&
         (this.password && this.password.length > 6);
 };
+UserSchema.methods.hasValidInfo = function(){
+    return (this.email && this.email.length > 5 && this.email.length <40);
+};
 UserSchema.methods.hasAccount = function(callback){
     this.constructor.find({email: this.email}, function(err, users){
         if(!err){

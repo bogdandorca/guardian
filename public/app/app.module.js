@@ -12,6 +12,14 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
             templateUrl: './partials/addUser',
             controller: 'AddUserCtrl'
         })
+        .when('/user/:id', {
+            templateUrl: './partials/profile',
+            controller: 'ProfileCtrl'
+        })
+        .when('/user/edit/:id', {
+            templateUrl: './partials/editUser',
+            controller: 'EditUserCtrl'
+        })
         .when('/login', {
             templateUrl: './public/login'
         })

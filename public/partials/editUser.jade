@@ -1,0 +1,23 @@
+.container-fluid.col-md-12
+    .page-title.col-md-12
+        h1.col-md-6 Edit User
+    .page-body.col-md-12(ng-init="getUserProfile()")
+        form.form-group.col-md-4
+            .col-md-12
+                label First Name
+                input(type="text", ng-model="user.firstName", placeholder="John").form-control
+
+            .col-md-12
+                label Last Name
+                input(type="text", ng-model="user.lastName", placeholder="Doe").form-control
+
+            .col-md-12
+                label Email
+                input(type="text", ng-model="user.email", placeholder="jdoe@nookie.com").form-control
+
+            .col-md-12
+                input(type="checkbox", ng-click="toggleRole()")
+                span Is Admin
+
+            .col-md-12
+                btn.btn.btn-primary(type="submit", ng-click="updateUser()") Update User

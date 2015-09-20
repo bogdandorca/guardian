@@ -1,7 +1,8 @@
-angular.module('app').factory('UserService', function($http, Reporter){
+angular.module('app').factory('UserService', function($http, $location, Reporter){
     return {
+        usersPerPage: 10,
         getUsers: function(page, callback){
-            $http.get('/api/users/'+page)
+            $http.get('/api/users?limit='+this.usersPerPage+'&page='+page)
                 .success(function(users){
                     callback(users);
                 })
@@ -9,8 +10,39 @@ angular.module('app').factory('UserService', function($http, Reporter){
                     callback(null);
                 });
         },
+        getUser: function(userId, callback){
+            if(userId && userId.length > 0 && userId !== '#'){
+                $http.get('/api/users/'+userId)
+                    .success(function(user){
+                        callback(user);
+                    })
+                    .error(function(err, responseCode){
+                        $location.path('/');
+                        switch(responseCode){
+                            case 400:
+                                Reporter.error.custom({
+                                    title: 'Not found',
+                                    text: 'This is not the user you are looking for'
+                                });
+                                break;
+                            case 401:
+                                Reporter.error.authorization();
+                                break;
+                            default:
+                                Reporter.error.server();
+                                break;
+                        }
+                    });
+            } else {
+                $location.path('/');
+                Reporter.error.custom({
+                    title: 'What user ID?',
+                    text: 'Mate, you have forgot to send the user ID :\'('
+                });
+            }
+        },
         deleteUser: function(userId, callback){
-            $http.delete('/api/user/' + userId)
+            $http.delete('/api/users/' + userId)
                 .success(function(){
                     Reporter.notification.success('The user has been successfully deleted');
                     callback();
@@ -24,7 +56,7 @@ angular.module('app').factory('UserService', function($http, Reporter){
                 });
         },
         addUser: function(User, callback){
-            $http.post('/api/user', User)
+            $http.post('/api/users', User)
                 .success(function(User){
                     callback(User);
                     Reporter.notification.success('The user has been successfully added');
@@ -44,12 +76,31 @@ angular.module('app').factory('UserService', function($http, Reporter){
                 });
         },
         search: function(data, callback){
-            $http.get('/api/user/search/'+data)
+            $http.get('/api/users/search/'+data)
                 .success(function(user){
                     callback(user);
                 })
                 .error(function(){
                     Reporter.error.server();
+                });
+        },
+        editUser: function(User){
+            $http.put('/api/users', User)
+                .success(function(){
+                    Reporter.notification.success('You have edited a user!');
+                    $location.path('/user/'+User._id);
+                })
+                .error(function(err, responseCode){
+                    if(responseCode === 401){
+                        Reporter.error.authorization();
+                    } else if(responseCode === 400){
+                        Reporter.error.custom({
+                            title: 'Oupss!',
+                            text: err
+                        });
+                    } else {
+                        Reporter.error.server();
+                    }
                 });
         }
     };
