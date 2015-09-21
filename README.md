@@ -1,25 +1,25 @@
 # Nookie
 
 ## Overview
-The admin panel for the Sparrow application.
+User authentication API with client dashboard.
 
 1. [Getting Started](#getting-started)
 2. [Build](#build)
-  * [gulp]()
-  * [clean]()
-  * [global]()
-  * [client]()
-  * [sass]()
-  * [jade]()
-  * [build]()
-  * [sever]()
-  * [open]()
+  * [gulp](#1-gulp)
+  * [clean](#2-gulp-clean)
+  * [global](#3-gulp-global)
+  * [client](#4-gulp-client)
+  * [sass](#5-gulp-sass)
+  * [jade](#6-gulp-jade)
+  * [build](#7-gulp-build)
+  * [sever](#8-gulp-server)
+  * [open](#9-gulp-open)
 3. [Test](#test)
-  * [environment]()
-  * [gulp test]()
+  * [environment](#environment)
+  * [gulp test](#gulp-test)
 4. [API](#api)
-  * [Users]()
-  * [Stats]()
+  * [Users](#users)
+  * [Stats](#stats)
 
 ## Getting Started
 
