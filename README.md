@@ -3,11 +3,29 @@
 ## Overview
 The admin panel for the Sparrow application.
 
+1. [Getting Started](#getting-started)
+2. [Build](#build)
+  * [gulp]()
+  * [clean]()
+  * [global]()
+  * [client]()
+  * [sass]()
+  * [jade]()
+  * [build]()
+  * [sever]()
+  * [open]()
+3. [Test](#test)
+  * [environment]()
+  * [gulp test]()
+4. [API](#api)
+  * [Users]()
+  * [Stats]()
+
 ## Getting Started
 
 In order to run the app you'll need:
 
- 1. Node - [Download](https://nodejs.org)
+ 1. Node ~v4.0.0 - [Download](https://nodejs.org)
  2. MongoDB - [Download](https://mongodb.org)
 
 How to start?
@@ -21,7 +39,7 @@ How to start?
 
 ## Build
 
-##### 1.  gulp
+##### 1. gulp
 
 Build the project for **development** and start the server.
 
@@ -90,6 +108,12 @@ Runs **nodemon**.
 If the *--browse* flag is sent, opens the project on a new window.
 
 ## Test
+
+##### Environment
+
+In order to run the test suite, you'll need Karma
+
+1. Karma - *npm install -g karma-cli*
 
 ##### gulp test
 
