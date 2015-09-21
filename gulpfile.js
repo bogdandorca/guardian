@@ -8,6 +8,7 @@ var gulp = require('gulp'),
 var config = require('./config.js').development,
     scripts = require('./gulp_tasks/scripts.js'),
     styles = require('./gulp_tasks/styles.js'),
+    jade = require('./gulp_tasks/template.js'),
     test = require('./gulp_tasks/test.js'),
     server = require('./gulp_tasks/server.js'),
     injector = require('./gulp_tasks/injector.js'),
@@ -18,7 +19,7 @@ var config = require('./config.js').development,
 var environment;
 argv.production ? environment = 'production' : environment = 'development';
 
-gulp.task('default', ['clean', 'global', 'client', 'sass', 'inject', 'server', 'open'], function(){
+gulp.task('default', ['clean', 'global', 'client', 'sass', 'build', 'server', 'open'], function(){
     /*  Flags:
             none: Task automation for development (JSLinter, JSConcat, Sass, CSS-Prefixer), starts the server and livereload
             --production: Adds to the default suite: JS Uglify, JS Strip Debug, CSS Minify
@@ -30,6 +31,7 @@ gulp.task('default', ['clean', 'global', 'client', 'sass', 'inject', 'server', '
     // Scripts
     watch(['./public/app/**/*.js', '!./public/app/app.js', '!./public/app/app.min.js', './server/**/*.js'], scripts.global);
     watch(['./public/app/**/*.js', '!./public/app/app.js', '!./public/app/app.min.js'], scripts.client);
+    watch('./public/**/*.jade', jade);
     // Styles
     watch('./public/assets/styles/**/*.scss', styles.sass);
 
@@ -48,8 +50,10 @@ gulp.task('global', scripts.global);
 gulp.task('client', scripts.client);
 // Styles
 gulp.task('sass', styles.sass);
+// Jade
+gulp.task('jade', jade);
 // Injector
-gulp.task('inject', injector);
+gulp.task('build', injector);
 
 // Test
 gulp.task('test', test);

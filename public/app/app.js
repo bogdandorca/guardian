@@ -4,6 +4,10 @@ angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProv
             templateUrl: './partials/dashboard',
             controller: 'DashboardCtrl'
         })
+        .when('/public/register', {
+            templateUrl: './partials/register',
+            controller: 'AddUserCtrl'
+        })
         .when('/users', {
             templateUrl: './partials/users',
             controller: 'UserCtrl'

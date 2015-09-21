@@ -16,28 +16,165 @@ How to start?
  2. Make sure the MongoDB server is running
  3. Get the project files
  4. Run **npm install** to install the *node.js* modules
- 5. Run **gulp**
- 6. Follow the instructions provided when the server starts
+ 5. Run **gulp --browse**
+ 6. This will run and open the project in your default browser
 
-## Task Automation
+## Build
 
-### gulp
+##### 1.  gulp
 
-Run the server on **development** mode.
+Build the project for **development** and start the server.
 
- 1. Lint **JS**
- 2. Concatenate **Client JS**
- 3. Compile **Sass**
- 4. Run **nodemon**
+* *noflag*
+  * builds the project for **development** and starts the server.
+* *--production*
+  * builds the project for **production** and starts the server
+* *--browse*
+  * opens the project in your default browser after the build is complete
 
-### lint
+Includes:
+* clean
+* global
+* client
+* sass
+* jade
+* build
+* server
+* open (if *--browse*)
 
-Lint for the client and server JS files.
+##### 2. gulp clean
 
-### concat
+Removes the *built* files (e.g. app.min.js or global.css).
 
-Concatenates JS Files.
+##### 3. gulp global
 
-### sass
+Runs JSHint for all the project's files.
 
-Compiles Sass files and autoprefixes them
+##### 4. gulp client
+
+* *noflag*
+  * concatenates the **client JS** files into **app.js**.
+  * reloads the browser window
+* *--production*
+  * concatenates the **client JS** files into **app.min.js**.
+  * removes the *debug specific functions* (e.g. console.log())
+  * uglifies the files
+  * reloads the browser window
+
+##### 5. gulp sass
+
+* *noflag*
+  * compiles and merges the **Sass** files into **global.css**
+  * autoprefixes the CSS rules
+  * reloads the browser window
+* *--production*
+  * compiles and merges the **Sass** files into **global.min.css**
+  * autoprefixes the CSS rules
+  * minfies the CSS
+  * reloads the browser window
+
+##### 6. gulp jade
+
+Used to watch **Jade** files in order to reload the browser's window on change.
+
+##### 7. gulp build
+
+Injects the local **CSS**, **JS** and **bower** into the template.
+
+##### 8. gulp server
+
+Runs **nodemon**.
+
+##### 9. gulp open
+
+If the *--browse* flag is sent, opens the project on a new window.
+
+## Test
+
+##### gulp test
+
+* *noflag*
+  * continuously runs the test suite on every client JS change
+* *--once*
+  * runs the test suite only once
+
+## API
+
+Can be accessed via the */api* access path.
+
+### Users
+
+#### /users
+
+**GET**
+```
+GET /api/users HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+```
+
+**POST**
+```
+POST /api/users HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test.user@nookie.com",
+    "password": "secretPass",
+    "role": 0
+}
+```
+
+**PUT**
+```
+PUT /api/users HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test.user@nookie.com",
+    "password": "secretPass",
+    "role": 0
+}
+```
+
+#### /users/:id
+
+**GET**
+```
+GET /api/users/123123 HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+```
+
+**DELETE**
+```
+DELETE /api/users/123123 HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+```
+
+#### /users/search/:input
+
+**GET**
+```
+GET /api/users/search/testuser HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+```
+
+### Stats
+
+#### /stats/users/number
+
+**GET**
+```
+GET /api/stats/users/number HTTP/1.1
+Content-Type: application/json
+Cache-Control: no-cache
+```

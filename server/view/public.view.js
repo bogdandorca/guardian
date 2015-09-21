@@ -3,7 +3,8 @@ var AuthController = require('../controller/auth.controller'),
 
 var templateVariables = {
     title: config.name,
-    description: config.description
+    description: config.description,
+    layoutName: ''
 };
 
 module.exports = function(app) {
@@ -11,7 +12,13 @@ module.exports = function(app) {
         res.render('./partials/' + req.params[0]);
     });
 
+    app.get('/public/*', function(req, res){
+        templateVariables.layoutName = 'publicLayout';
+        res.render('index', templateVariables);
+    });
+
     app.get('*', function(req, res){
+        templateVariables.layoutName = 'layout';
         res.render('index', templateVariables);
     });
 };
