@@ -6,10 +6,15 @@ html
 
         link(rel="stylesheet", type="text/css", href="href='https://fonts.googleapis.com/css?family=Lato:400,300")
         link(rel="stylesheet", type="text/css", href="/vendor/fontawesome/css/font-awesome.min.css")
-        link(rel="stylesheet", type="text/css", href="/vendor/bootstrap/css/bootstrap.min.css")
-        link(rel="stylesheet", type="text/css", href="assets/styles/global.css")
+        link(rel="stylesheet", type="text/css", href="/vendor/bootstrap/dist/css/bootstrap.min.css")
+        //- bower:css
+        link(rel="stylesheet", href="/vendor/sweetalert/dist/sweetalert.css")
+        //- endinject
+        //- inject:css
+        link(rel="stylesheet", href="/assets/styles/global.css")
+        //- endinject
 
-        title Nookie
+        title!= title + " | " + description
         base(href="/")
     body(ng-app="app")
         include header

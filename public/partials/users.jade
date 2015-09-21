@@ -1,14 +1,19 @@
 .container-fluid
-    .page-title
-        h1 Manage Users
-    .page-body
-        table.table.table-striped.table-hover
+    .page-title.col-md-12
+        h1.col-md-6 Manage Users
+        .title-aside.col-md-3
+            user-search-bar
+    .page-body.col-md-12(ng-init="getUsers()")
+        // Error
+        h2(ng-show="(users && users.length === 0)") Unfortunately there are no results to display
+        // Data
+        table.table.table-striped.table-hover.col-md-12(ng-show="(users && users.length > 0)")
             thead
                 tr
                     th #
-                    th First Name&#32;
-                        i.fa.fa-caret-down
                     th Last Name&#32;
+                        i.fa.fa-caret-down
+                    th First Name&#32;
                         i.fa.fa-caret-down
                     th Email Address&#32;
                         i.fa.fa-caret-down
@@ -16,78 +21,27 @@
                         i.fa.fa-caret-down
                     th Member from&#32;
                         i.fa.fa-caret-down
-                    th Last activity&#32;
-                        i.fa.fa-caret-down
                     th
                     th
             tbody
-                tr
-                    td 1
-                    td Bogdan
-                    td Dorca
-                    td bogdandorca@gmail.com
-                    td User
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
+                tr(ng-repeat="user in users track by $index", ng-class="rowDisplayRules(user.role)", ng-click="getUserInfo($index)")
+                    td {{$index + 1}}
+                    td {{user.lastName}}
+                    td {{user.firstName}}
+                    td {{user.email}}
+                    td.text-capitalize {{user.role | RoleFilter}}
+                    td {{user.creationDate | MomentParse}}
                     td
-                        a(href="#") Edit
+                        a(href="", ng-show="user.role === 0", ng-click="editUser($index, $event)") Edit
                     td
-                        a(href="#") Delete
-                tr
-                    td 2
-                    td Ionut
-                    td Iacob
-                    td iiacob@gmail.com
-                    td User
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
-                    td
-                        a(href="#") Edit
-                    td
-                        a(href="#") Delete
-                tr
-                    td 3
-                    td Oana
-                    td Gherman
-                    td ogherman@gmail.com
-                    td User
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
-                    td
-                        a(href="#") Edit
-                    td
-                        a(href="#") Delete
-                tr
-                    td 4
-                    td Beata
-                    td Tamas
-                    td btamas@gmail.com
-                    td User
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
-                    td
-                        a(href="#") Edit
-                    td
-                        a(href="#") Delete
-                tr
-                    td 5
-                    td Paula
-                    td Olaru
-                    td polaru@gmail.com
-                    td Admin
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
-                    td -
-                    td -
-                tr
-                    td 6
-                    td Ioan
-                    td Cimpeanu
-                    td icimpeanu@gmail.com
-                    td User
-                    td Thu Sep 10 2015 15:23:52 GMT+0300
-                    td Thu Sep 10 2015 23:57:03 GMT+0300
-                    td
-                        a(href="#") Edit
-                    td
-                        a(href="#") Delete
+                        a(href="", ng-show="user.role === 0", ng-click="promptUserDelete($index, $event)") Delete
+        // nav
+        nav(ng-show="(users && users.length > 0)", ng-init="initializePagination()")
+            ul.pagination
+                li(ng-class="{'disabled': page === 1}")
+                    a(href="#", ng-click="previousPage()") &laquo;
+                        span.sr-only (current)
+                li(ng-repeat="pg in getPagesArray() track by $index", ng-class="{'disabled': page === ($index+1)}")
+                    a(href="#", ng-click="goToPage($index+1)") {{$index + 1}}
+                li(ng-class="{'disabled': page === lastPage}")
+                    a(href="#", ng-click="nextPage()") &raquo;

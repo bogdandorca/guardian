@@ -3,27 +3,36 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch'),
-    chalk = require('chalk');
+    chalk = require('chalk'),
+    livereload = require('gulp-livereload'),
+    argv = require('yargs').argv,
+    gulpif = require('gulp-if'),
+    stripDebug = require('gulp-strip-debug');
+
+var filename;
+argv.production ? filename = 'app.min.js' : filename = 'app.js';
 
 var scripts = {
-    linter: function(){
-        console.log(chalk.cyan('Checking JS syntax...'));
+    global: function(){
+        console.log(chalk.cyan('Processing JavaScript files...'));
 
-        gulp.src(['./public/app/**/*.js', './server/**/*.js', '!./public/app/app.js'])
+        gulp.src(['./public/app/**/*.js', './server/**/*.js', '!./public/app/app.js', '!./public/app/app.min.js'])
             .pipe(jshint())
             .pipe(jshint.reporter('default'));
     },
-    concat: function(){
-        watch(['./public/app/**/*.js', '!./public/app/app.js'], function(){
-            console.log(chalk.cyan('Concatenating client files...'));
+    client: function(){
+        console.log(chalk.cyan('Processing Public JavaScript files...'));
 
-            scripts.linter();
-            gulp.src(['./public/app/*.module.js', './public/app/**/*.js', '!./public/app/app.js'])
-                .pipe(concat('app.js'))
-                .pipe(gulp.dest('./public/app/'));
+        gulp.src(['./public/app/*.module.js', './public/app/**/*.js', '!./public/app/app.js', '!./public/app/app.min.js'])
+            .pipe(concat(filename))
+            .pipe(gulpif(argv.production, stripDebug()))
+            .pipe(gulpif(argv.production, uglify({
+                mangle: false
+            })))
+            .pipe(gulp.dest('./public/app/'))
+            .pipe(livereload());
 
-            console.log(chalk.green('Client files concatenated'));
-        });
+        console.log(chalk.green('Client files processed'));
     }
 };
 

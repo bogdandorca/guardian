@@ -1,0 +1,30 @@
+.container-fluid.col-md-12(ng-init="getUserProfile()")
+    .page-title.col-md-12
+        h1.col-md-6 {{user.firstName}} {{user.lastName}}
+    .page-body.col-md-12.profile
+        .col-md-2
+            .profile-picture-replacement.img-thumbnail
+                i.fa.fa-user
+        .col-md-8.profile-info
+            .profile-info-panel
+                h3 Contact info
+                .col-md-12
+                    .col-md-4
+                        p Email:
+                    .col-md-8
+                        p {{user.email}}
+            .profile-info-panel
+                h3 General Info
+                .col-md-12
+                    .col-md-4
+                        p Role:
+                        p Member from:
+                    .col-md-8
+                        p.text-capitalize {{user.role | RoleFilter}}
+                        p {{user.creationDate | MomentParse}}
+        .col-md-2
+            .profile-actions-panel.img-thumbnail
+                h3 Actions
+                a(href="#", ng-click="editUser()").action Edit
+                a(href="#").action Reset Password
+                a(href="#", ng-click="promptUserDelete()").action Delete Account

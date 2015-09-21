@@ -5,7 +5,7 @@ var express = require('express'),
 
 app = express();
 // Config
-var config = require('./config/env')[env];
+var config = require('../config.js')[env];
 require('./config/viewEngine')(app);
 
 // Database
@@ -13,6 +13,8 @@ mongoose.connect(config.database);
 console.log('Database connection established'.bold.green);
 
 // Views
+require('./view/users.view')(app);
+require('./view/stats.view')(app);
 require('./view/public.view')(app);
 
 // Server
