@@ -41,9 +41,6 @@ How to run the application?
 ## Build
 
 ##### 1. gulp
-
-Build the project for **development** and start the server.
-
 * *noflag*
   * builds the project for **development** and starts the server.
 * *--production*
@@ -65,9 +62,11 @@ Includes:
 
 Removes the *built* files (e.g. app.min.js or global.css).
 
+
 ##### 3. gulp global
 
 Runs JSHint for all the project's files.
+
 
 ##### 4. gulp client
 
@@ -79,6 +78,7 @@ Runs JSHint for all the project's files.
   * removes the *debug specific functions* (e.g. console.log())
   * uglifies the files
   * reloads the browser window
+
 
 ##### 5. gulp sass
 
@@ -92,39 +92,41 @@ Runs JSHint for all the project's files.
   * minfies the CSS
   * reloads the browser window
 
+
 ##### 6. gulp jade
 
 Used to watch **Jade** files in order to reload the browser's window on change.
+
 
 ##### 7. gulp build
 
 Injects the local **CSS**, **JS** and **bower** into the template.
 
+
 ##### 8. gulp server
 
 Runs **nodemon**.
+
 
 ##### 9. gulp open
 
 If the *--browse* flag is sent, opens the project on a new window.
 
+
 ## Test
 
 ##### Environment
-
 In order to run the test suite, you'll need Karma
 
 1. Karma - *npm install -g karma-cli*
 
 ##### gulp test
-
 * *noflag*
   * continuously runs the test suite on every client JS change
 * *--once*
   * runs the test suite only once
 
 ## API
-
 Can be accessed via the */api* access path.
 
 ### Users
@@ -168,6 +170,7 @@ Cache-Control: no-cache
 }
 ```
 
+
 #### /users/:id
 
 **GET**
@@ -184,6 +187,7 @@ Content-Type: application/json
 Cache-Control: no-cache
 ```
 
+
 #### /users/search/:input
 
 **GET**
@@ -192,6 +196,7 @@ GET /api/users/search/testuser HTTP/1.1
 Content-Type: application/json
 Cache-Control: no-cache
 ```
+
 
 ### Stats
 
