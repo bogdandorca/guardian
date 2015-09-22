@@ -49,14 +49,14 @@ How to run the application?
   * opens the project in your default browser after the build is complete
 
 Includes:
-* clean
-* global
-* client
-* sass
-* jade
-* build
-* server
-* open (if *--browse*)
+* [clean](#2-gulp-clean)
+* [global](#3-gulp-global)
+* [client](#4-gulp-client)
+* [sass](#5-gulp-sass)
+* [jade](#6-gulp-jade)
+* [build](#7-gulp-build)
+* [sever](#8-gulp-server)
+* [open](#9-gulp-open) (if *--browse*)
 
 ##### 2. gulp clean
 
