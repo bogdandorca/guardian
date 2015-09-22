@@ -26,9 +26,10 @@ User authentication API with client dashboard.
 In order to run the app you'll need:
 
  1. Node ~v4.0.0 - [Download](https://nodejs.org)
- 2. MongoDB - [Download](https://mongodb.org)
+ 2. Gulp - *npm install -g gulp*
+ 3. MongoDB - [Download](https://mongodb.org)
 
-How to start?
+How to run the application?
 
  1. Install the dependencies mentioned above
  2. Make sure the MongoDB server is running
