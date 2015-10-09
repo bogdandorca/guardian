@@ -3,23 +3,15 @@ angular.module('app').controller('AddUserCtrl', function($scope, UserService, $l
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
-        role: 0
+        password: ''
     };
     $scope.addUser = function(){
-        UserService.addUser($scope.user, function(User){
+        UserService.addUser($scope.user).then(function(User){
             if(User){
                 $scope.user = null;
+                Reporter.notification.success('The user has been successfully added');
                 $location.path('/users');
             }
         });
-    };
-
-    $scope.toggleRole = function(){
-        if($scope.user.role && $scope.user.role === 1){
-            $scope.user.role = 0;
-        } else {
-            $scope.user.role = 1;
-        }
     };
 });

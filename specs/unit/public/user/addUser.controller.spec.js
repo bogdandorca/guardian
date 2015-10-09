@@ -32,17 +32,4 @@ describe('AddUserCtrl', function(){
         });
 
     });
-    describe('toggleRole', function(){
-        it('should set toggle the user\' role', function(){
-            var possibilities = [0, 1];
-            var expectedResults = [1, 0];
-
-            for(var i=0; i<possibilities.length; i++){
-                scope.user.role = possibilities[i];
-                scope.toggleRole();
-
-                expect(scope.user.role).toEqual(expectedResults[i]);
-            }
-        });
-    });
 });

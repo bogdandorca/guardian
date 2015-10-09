@@ -1,0 +1,9 @@
+html
+    head
+        include head
+    body(ng-app="app")
+
+        .container.partial(ng-view)
+            block main-block
+
+        include scripts

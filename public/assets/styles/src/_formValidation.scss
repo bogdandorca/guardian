@@ -1,0 +1,17 @@
+input {
+  &.ng-dirty {
+    &.ng-invalid {
+      border: 1px solid $medium-red;
+    }
+  }
+}
+.errorContainer {
+  color: $medium-red;
+  display: block;
+  height: auto;
+  padding: 10px 0;
+  small{
+    font-size: $font;
+    font-weight: bold;
+  }
+}

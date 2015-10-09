@@ -72,8 +72,12 @@ describe('UserCtrl', function(){
             scope.users = userList;
         });
         it('should trigger the prompt message', function(){
+            var $event = {
+                stopPropagation: function(){}
+            };
+
             spyOn(Reporter.prompt, 'choice');
-            scope.promptUserDelete(0);
+            scope.promptUserDelete(0, $event);
             expect(Reporter.prompt.choice).toHaveBeenCalled();
         });
         it('should call the UserService.deleteUser with the userId', function(){

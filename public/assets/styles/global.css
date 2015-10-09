@@ -1,3 +1,6 @@
+body {
+  overflow: hidden; }
+
 .logo {
   max-width: 50px;
   margin-top: 10px; }
@@ -34,6 +37,8 @@ h3 {
   font-size: 1em; }
 
 .sidebar {
+  position: relative;
+  z-index: 2;
   min-width: 80px;
   width: 80px;
   height: calc(100% - 52px);
@@ -65,6 +70,24 @@ h3 {
       .sidebar .menu li p {
         margin: 0; }
 
+.partial {
+  position: relative;
+  z-index: 1;
+  transition: all 0.5s;
+  height: calc(100% - 52px); }
+  .partial.ng-enter {
+    opacity: 0; }
+    .partial.ng-enter.ng-enter-active {
+      opacity: 1;
+      -webkit-transform: translate(-80vw);
+              transform: translate(-80vw); }
+  .partial.ng-leave {
+    opacity: 1; }
+    .partial.ng-leave.ng-leave-active {
+      opacity: 0;
+      -webkit-transform: translate(80vw);
+              transform: translate(80vw); }
+
 .page-title {
   padding-bottom: 5px;
   border-bottom: 1px solid #A9A9A9; }
@@ -86,6 +109,23 @@ h3 {
 
 .clickable {
   cursor: pointer; }
+
+input.ng-dirty.ng-invalid {
+  border: 1px solid #D9534F; }
+
+.errorContainer {
+  color: #D9534F;
+  display: block;
+  height: auto;
+  padding: 10px 0; }
+  .errorContainer small {
+    font-size: 1em;
+    font-weight: bold; }
+
+.user-controls {
+  margin-right: 10px; }
+  .user-controls a {
+    color: #F6F7F7; }
 
 .profile h3 {
   font-weight: bold;
@@ -117,3 +157,29 @@ h3 {
     display: block;
     width: 100%;
     padding: 2px 0; }
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important; }
+
+.loader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  text-align: center;
+  transition: opacity 0.3s;
+  opacity: 1; }
+  .loader i {
+    margin-top: 33vh;
+    font-size: 8vh;
+    color: #33363D; }
+  .loader p {
+    margin-top: 2vh;
+    font-size: 1.8vh;
+    color: #33363D; }
+  .loader.ng-hide {
+    opacity: 0; }

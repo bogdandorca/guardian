@@ -1,5 +1,5 @@
 angular.module('app').directive('userSearchBar', function(UserService){
-    var linker = function(scope, element){
+    var linker = function(scope){
         scope.search = function(input){
             if(input && input.length > 0){
                 UserService.search(input, function(userData){

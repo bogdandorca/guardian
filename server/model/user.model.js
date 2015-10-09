@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     salt: String,
     role: {
         type: Number,
-        default: 0
+        default: 1
     },
     creationDate: {
         type: String,
@@ -44,6 +44,14 @@ UserSchema.methods.hasAccount = function(callback){
             callback('There was an error trying to process the request');
         }
     });
+};
+// Get public data
+UserSchema.methods.getPublicData = function(){
+    var publicUserData = this.toObject();
+    delete publicUserData.password;
+    delete publicUserData.salt;
+
+    return publicUserData;
 };
 // Registering functions
 UserSchema.methods.encryptPassword = function(password, salt){

@@ -1,7 +1,7 @@
 {
   "name": "nookie",
   "version": "0.0.0",
-  "homepage": "https://github.com/bogdandorca/nookie",
+  "homepage": "https://github.com/bogdandorca/guardian",
   "authors": [
     "bogdandorca <bogdandorca@gmail.com>"
   ],
@@ -15,9 +15,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.5",
-    "angular-mocks": "~1.4.5",
-    "angular-route": "~1.4.5",
+    "angular": "~1.4.6",
+    "angular-animate": "~1.4.6",
+    "angular-mocks": "~1.4.6",
+    "angular-route": "~1.4.6",
     "fontawesome": "~4.4.0",
     "moment": "~2.10.6",
     "sweetalert": "~1.1.0"

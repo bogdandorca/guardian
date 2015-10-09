@@ -1,4 +1,6 @@
 .sidebar {
+  position: relative;
+  z-index: 2;
   min-width: 80px;
   width: 80px;
   height: calc(100% - 52px);

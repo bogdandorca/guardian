@@ -1,27 +1,14 @@
 html
     head
-        meta(charset="utf-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1")
-
-        link(rel="stylesheet", type="text/css", href="href='https://fonts.googleapis.com/css?family=Lato:400,300")
-        link(rel="stylesheet", type="text/css", href="/vendor/fontawesome/css/font-awesome.min.css")
-        link(rel="stylesheet", type="text/css", href="/vendor/bootstrap/dist/css/bootstrap.min.css")
-        //- bower:css
-        link(rel="stylesheet", href="/vendor/sweetalert/dist/sweetalert.css")
-        //- endinject
-        //- inject:css
-        link(rel="stylesheet", href="/assets/styles/global.css")
-        //- endinject
-
-        title!= title + " | " + description
-        base(href="/")
+        include head
     body(ng-app="app")
         include header
 
         include sidebar
 
-        .content-body(ng-view)
+        .content-body.partial(ng-view)
             block main-block
+
+        auth-loader
 
         include scripts

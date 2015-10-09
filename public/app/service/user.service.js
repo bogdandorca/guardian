@@ -1,10 +1,10 @@
-angular.module('app').factory('UserService', function($http, $location, Reporter){
+angular.module('app').factory('UserService', function($http, $q, $location, Reporter){
     return {
         usersPerPage: 10,
         getUsers: function(page, callback){
             $http.get('/api/users?limit='+this.usersPerPage+'&page='+page)
                 .success(function(users){
-                    callback(users);
+                    callback(users.data);
                 })
                 .error(function(){
                     callback(null);
@@ -14,7 +14,7 @@ angular.module('app').factory('UserService', function($http, $location, Reporter
             if(userId && userId.length > 0 && userId !== '#'){
                 $http.get('/api/users/'+userId)
                     .success(function(user){
-                        callback(user);
+                        callback(user.data);
                     })
                     .error(function(err, responseCode){
                         $location.path('/');
@@ -56,13 +56,12 @@ angular.module('app').factory('UserService', function($http, $location, Reporter
                 });
         },
         addUser: function(User, callback){
+            var deferred = $q.defer();
             $http.post('/api/users', User)
                 .success(function(User){
-                    callback(User);
-                    Reporter.notification.success('The user has been successfully added');
+                    deferred.resolve(User.data);
                 })
                 .error(function(data, responseCode){
-                    callback();
                     if(responseCode === 401){
                         Reporter.error.authorization();
                     } else if(responseCode === 403) {
@@ -73,12 +72,14 @@ angular.module('app').factory('UserService', function($http, $location, Reporter
                     } else{
                         Reporter.error.server();
                     }
+                    deferred.reject();
                 });
+            return deferred.promise;
         },
         search: function(data, callback){
             $http.get('/api/users/search/'+data)
                 .success(function(user){
-                    callback(user);
+                    callback(user.data);
                 })
                 .error(function(){
                     Reporter.error.server();

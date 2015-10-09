@@ -1,5 +1,10 @@
-nav.navbar.navbar-inverse
+nav.navbar.navbar-inverse(ng-cloak)
     .container-fluid
         .navbar-header
             a(href="/").navbar-brand
                 p!= title
+        ul.nav.navbar-nav.navbar-right.user-controls(ng-init="initSession()", ng-show="userIsLoggedIn()", ng-controller="AccountCtrl")
+            li
+                a(href="") {{User.firstName + ' ' + User.lastName}}
+            li
+                a(href="#", ng-click="logout()") Log out

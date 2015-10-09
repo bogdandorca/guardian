@@ -1,12 +1,13 @@
-var User = require('../model/user.model');
+var User = require('../model/user.model'),
+    Response = require('./response.controller');
 
 module.exports = {
     getNumberOfUsers: function(req, res){
         User.count({}, function(err, data){
             if(!err){
-                res.status(200).send(data.toString());
+                Response.success(res, data.toString());
             } else {
-                res.status(500).send('Server error');
+                Response.error.internalServerError(res);
             }
         });
     }

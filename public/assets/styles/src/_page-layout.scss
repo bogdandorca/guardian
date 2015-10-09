@@ -1,3 +1,23 @@
+.partial {
+  position: relative;
+  z-index: 1;
+  transition: all .5s;
+  height: calc(100% - 52px);
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: 1;
+      transform: translate(-80vw);
+    }
+  }
+  &.ng-leave {
+    opacity: 1;
+    &.ng-leave-active {
+      opacity: 0;
+      transform: translate(80vw);
+    }
+  }
+}
 .page-title {
   padding-bottom: 5px;
   border-bottom: 1px solid $separator;

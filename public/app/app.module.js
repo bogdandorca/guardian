@@ -1,34 +1,38 @@
-angular.module('app', ['ngRoute']).config(function($routeProvider, $locationProvider){
+angular.module('app', ['ngRoute', 'ngAnimate']).config(function($routeProvider, $locationProvider){
     $routeProvider
         .when('/', {
-            templateUrl: './partials/dashboard',
+            templateUrl: './partials/public/home'
+        })
+        .when('/dashboard', {
+            templateUrl: './partials/private/dashboard',
             controller: 'DashboardCtrl'
         })
-        .when('/public/register', {
-            templateUrl: './partials/register',
-            controller: 'AddUserCtrl'
-        })
         .when('/users', {
-            templateUrl: './partials/users',
+            templateUrl: './partials/private/users',
             controller: 'UserCtrl'
         })
         .when('/user/create', {
-            templateUrl: './partials/addUser',
+            templateUrl: './partials/private/addUser',
             controller: 'AddUserCtrl'
         })
         .when('/user/:id', {
-            templateUrl: './partials/profile',
+            templateUrl: './partials/private/profile',
             controller: 'ProfileCtrl'
         })
         .when('/user/edit/:id', {
-            templateUrl: './partials/editUser',
+            templateUrl: './partials/private/editUser',
             controller: 'EditUserCtrl'
         })
+        .when('/register', {
+            templateUrl: './partials/public/register',
+            controller: 'RegisterCtrl'
+        })
         .when('/login', {
-            templateUrl: './public/login'
+            templateUrl: './partials/public/login',
+            controller: 'LoginCtrl'
         })
         .otherwise({
-            templateUrl: './partials/404'
+            templateUrl: './partials/public/404'
         });
 
     $locationProvider.html5Mode(true);

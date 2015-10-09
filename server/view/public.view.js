@@ -3,22 +3,35 @@ var AuthController = require('../controller/auth.controller'),
 
 var templateVariables = {
     title: config.name,
-    description: config.description,
-    layoutName: ''
+    description: config.description
 };
 
 module.exports = function(app) {
-    app.get('/partials/*', AuthController.isAuthenticated, function(req, res){
-        res.render('./partials/' + req.params[0]);
+    app.get('/partials/public/*', function(req, res){
+        res.render('./partials/public/' + req.params[0]);
     });
-
+    app.get('/partials/private/*', function(req, res){
+        AuthController.hasRouteAccess(req, function(err){
+            if(!err){
+                res.render('./partials/private/' + req.params[0]);
+            } else {
+                res.render('./partials/public/404');
+            }
+        });
+    });
+    // Get logic to get the private data only if logged in
+    // Basically, inverse the parse logic
     app.get('/public/*', function(req, res){
-        templateVariables.layoutName = 'publicLayout';
-        res.render('index', templateVariables);
+        res.render('public', templateVariables);
     });
 
     app.get('*', function(req, res){
-        templateVariables.layoutName = 'layout';
-        res.render('index', templateVariables);
+        AuthController.hasRouteAccess(req, function(err){
+            if(!err){
+                res.render('index', templateVariables);
+            } else {
+                res.render('public', templateVariables);
+            }
+        });
     });
 };

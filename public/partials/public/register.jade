@@ -1,0 +1,53 @@
+.container-fluid.col-md-12
+    .page-title.col-md-6.col-md-offset-3
+        h1.col-md-6 Register
+    .page-body.col-md-12
+        form.form-group.col-md-6.col-md-offset-3(name="registrationForm", nonvalidate)
+            .col-md-12
+                label First Name
+                input(type="text", name="firstName", ng-model="user.firstName", ng-minlength=2, ng-maxlength=50, ng-pattern=[a-zA-Z], placeholder="John", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.firstName.$dirty && registrationForm.firstName.$invalid")
+                    small(class="errorMessage", ng-show="registrationForm.firstName.$error.required") Your first name is required
+                    small(class="errorMessage", ng-show="registrationForm.firstName.$error.minlength") Your first name is required to be at lease 2 characters
+                    small(class="errorMessage", ng-show="registrationForm.firstName.$error.maxlength") Your first name cannot be longer than 50 characters
+
+            .col-md-12
+                label Last Name
+                input(type="text",name="lastName", ng-model="user.lastName",ng-minlength=2, ng-maxlength=50, ng-pattern=[a-zA-Z], placeholder="Doe", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.lastName.$dirty && registrationForm.lastName.$invalid")
+                    small(class="errorMessage", ng-show="registrationForm.lastName.$error.required") Your last name is required
+                    small(class="errorMessage", ng-show="registrationForm.lastName.$error.minlength") Your last name is required to be at lease 2 characters
+                    small(class="errorMessage", ng-show="registrationForm.lastName.$error.maxlength") Your last name cannot be longer than 50 characters
+
+            .col-md-12
+                label Email
+                input(type="email",name="email", ng-model="user.email",ng-minlength=6,ng-maxlength=50, placeholder="jdoe@nookie.com", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.email.$dirty && registrationForm.email.$invalid")
+                    small(class="errorMessage", ng-show="registrationForm.email.$error.required") Your email is required
+                    small(class="errorMessage", ng-show="registrationForm.email.$error.minlength") Your email is required to be at lease 6 characters
+                    small(class="errorMessage", ng-show="registrationForm.email.$error.maxlength") Your email cannot be longer than 50 characters
+                    small(class="errorMessage", ng-show="registrationForm.email.$error.email") That is not a valid email. Please input a valid email.
+
+            .col-md-12
+                label Confirm Email
+                input(type="email",name="emailConfirmation", ng-model="emailConfirmation",ng-minlength=6,ng-maxlength=50, placeholder="jdoe@nookie.com", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.emailConfirmation.$dirty && registrationForm.email.$dirty")
+                    small(class="errorMessage", ng-show="!emailsMatch()") The emails do not match
+
+            .col-md-12
+                label Password
+                input(type="password",name="password", ng-model="user.password",ng-minlength=6,ng-maxlength=50, placeholder="Your unique password", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.password.$dirty && registrationForm.password.$invalid")
+                    small(class="errorMessage", ng-show="registrationForm.password.$error.required") Your password is required
+                    small(class="errorMessage", ng-show="registrationForm.password.$error.minlength") Your password is required to be at lease 6 characters
+                    small(class="errorMessage", ng-show="registrationForm.password.$error.maxlength") Your password cannot be longer than 50 characters
+                    small(class="errorMessage", ng-show="registrationForm.password.$error.email") That is not a valid email. Please input a valid email.
+
+            .col-md-12
+                label Confirm Password
+                input(type="password",name="passwordConfirmation", ng-model="passwordConfirmation",ng-minlength=6,ng-maxlength=50, placeholder="Confirm password", required).form-control
+                div(class="errorContainer", ng-show="registrationForm.passwordConfirmation.$dirty && registrationForm.password.$dirty")
+                    small(class="errorMessage", ng-show="!passwordsMatch()") The passwords do not match
+
+            .col-md-12
+                btn.btn.btn-primary(type="submit", ng-click="register()", ng-submit="register()", ng-disabled="registrationForm.$invalid || registrationForm.$pristine") Register

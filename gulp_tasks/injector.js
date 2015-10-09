@@ -6,7 +6,7 @@ var gulp = require('gulp'),
 
 // Template Variables
 var templateFolder = './public/template/',
-    layout = gulp.src(templateFolder + 'layout.jade'),
+    layout = gulp.src(templateFolder + 'head.jade'),
     scripts = gulp.src(templateFolder + 'scripts.jade'),
     ignorePath = {
         ignorePath: '/public'
