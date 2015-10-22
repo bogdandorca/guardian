@@ -7,3 +7,5 @@ You can read more about this application and the API on out [wiki page](https://
 * [API](https://github.com/bogdandorca/nookie/wiki/API)
   * [Users](https://github.com/bogdandorca/nookie/wiki/API---Users)
   * [Stats](https://github.com/bogdandorca/nookie/wiki/API---Stats)
+
+The project is currently in development phase and is not yet publicly available.
